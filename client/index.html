@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <input type="text" name="" value="" id="cari">
+    <button type="button" name="button" id="btn">cari</button>
+    <div class="" id="twit"></div>
+  </body>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script type="text/javascript">
+    $(document).ready(function(){
+
+      $('#btn').click(function() {
+        console.log(typeof ($('input#cari').val()));
+        $.ajax({
+          url: 'http://localhost:3000/api/twatt/searchtimeline/' + $('input#cari').val(),
+          method: 'GET',
+          dataType: 'JSON',
+          success: function(response) {
+            console.log(response);
+            response.statuses.forEach((elemen) => {
+              $("#twit").append(
+                `
+                <img src="${elemen.user.profile_image_url}" alt="">
+                <p>${elemen.user.name}</p>
+                <p>${elemen.user.screen_name}</p>
+                <p>${elemen.user.description}</p>
+                <p>${elemen.text}</p>
+                `
+              )
+            })
+            console.log(response);
+          }
+        })
+      })
+
+    })
+  </script>
+</html>
